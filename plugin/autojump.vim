@@ -79,7 +79,7 @@ endfunction
 
 function! autojump#jump(fragment)
   let path = autojump#complete(a:fragment)
-  exec g:open_command.' '.path
+  exec g:autojump_open_command.' '.path
 endfunction
 
 function! autojump#create_dir(dir)
