@@ -36,7 +36,7 @@ function! autojump#jumpstat()
 endfunction
 
 function! autojump#completion_for(dir, ArgLead, CmdLine, CursorPos)
-  let paths = system(autojump#autojump_cmd(a:dir, '--completion "'.a:ArgLead.'"'))
+  let paths = system(autojump#autojump_cmd(a:dir, '--complete "'.a:ArgLead.'"'))
   return split(paths, "\n")
 endfunction
 
