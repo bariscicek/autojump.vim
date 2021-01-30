@@ -8,12 +8,16 @@ if exists("g:loaded_autojump") || &cp
   finish
 endif
 let g:loaded_autojump = 1
+let s:default_open_command = 'edit'
+
 if exists( "g_autojump_open_command" )
   let s:open_command = g:autojump_open_command
+else
+  let s:open_command = s:default_open_command
 endif
 
 if !exists(s:open_command)
-  let s:open_command = 'edit'
+  let s:open_command = s:default_open_command
 endif
 
 let has_autojump=system("which autojump")
