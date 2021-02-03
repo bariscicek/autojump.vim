@@ -8,7 +8,7 @@ if exists("g:loaded_autojump") || &cp
   finish
 endif
 let g:loaded_autojump = 1
-let s:default_command = 'edit'
+let s:default_command = 'NERDTree'
 
 if !exists( "g:autojump_command" )
   let g:autojump_command = s:default_command
@@ -28,9 +28,11 @@ let s:global_dir=expand(s:data_dir.'/global')
 let s:project_dir=expand(s:data_dir.'/projects/'.getcwd())
 
 " Stores an opened buffer in autojumps history
-function! autojump#store_file(path)
-  silent! exec '!'.autojump#autojump_cmd(s:project_dir, '-a "'.a:path.'"')
-  silent! exec '!'.autojump#autojump_cmd(s:global_dir, '-a "'.a:path.'"')
+function! autojump#store_file(fpath)
+  echom a:fpath
+  "let s:path = system('dirname '.tr(a:fpath, "\n", ''))
+  silent! exec '!'.autojump#autojump_cmd(s:project_dir, '-a "'.tr(s:path, '\n', '').'"')
+  silent! exec '!'.autojump#autojump_cmd(s:global_dir, '-a "'.tr(s:path, '\n','').'"')
 endfunction
 
 " Show the current jumpstats
@@ -85,10 +87,6 @@ function! autojump#jump(fragment)
   let path = autojump#complete(a:fragment)
   let command = s:default_command
 
-  if exists(g:autojump_command)
-    let command = g:autojump_command
-  endif
-
   exec command.' '.path
 endfunction
 
@@ -110,7 +108,7 @@ endfunction
 
 augroup autojump
   autocmd!
-  autocmd BufNewFile,BufRead,BufWritePost * call autojump#store_file('<amatch>')
+  autocmd BufNewFile,BufRead,BufWritePost * call autojump#store_file("<amatch>")
 augroup END
 
 " JumpStat will list which files are the most used
